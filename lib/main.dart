@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:myapp_11/pages/home.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:myapp_11/pages/login.dart';
+import 'package:myapp_11/storage_utils.dart';
 
-void main() {
+import 'pages/home.dart';
+import 'pages/registration.dart';
+
+void main()async {
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -12,8 +18,8 @@ void main() {
    Widget build(BuildContext context) {
      return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
-     ) ;
+      home: StorageUtils.isFirstTimeLogin()? LoginPage() : HomePage()
+     );
    }
  }
  
