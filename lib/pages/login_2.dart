@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class Login2Page extends StatefulWidget {
+  const Login2Page({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<Login2Page> createState() => _Login2PageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  //final _key = GlobalKey<FormState>();
+class _Login2PageState extends State<Login2Page> {
+  final _key = GlobalKey<FormState>();
   TextEditingController emailClt = TextEditingController();
   TextEditingController passwordClt = TextEditingController();
   bool rememberUser =false;
@@ -21,70 +21,25 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     myColor = Theme.of(context).primaryColor;
     mediaSize = MediaQuery.of(context).size;
-    myColor = Theme.of(context).primaryColor;
-    return Scaffold(
-      body: Column(
-          children:[
-        Expanded(
-          flex: 1,
-           child: ClipPath(
-             clipper:HeadContainerClipper() ,
-
-             child: Container(
-
-               decoration: BoxDecoration(
-                 color: myColor,
-                   image: DecorationImage(
-                     image: AssetImage("assets/images/bg.jpg"),
-                     fit:BoxFit.cover,
-                     colorFilter: ColorFilter.mode(myColor.withOpacity(0.2), BlendMode.dstATop)
-                   ),
-           ),
-
-           child: Column(
-             mainAxisAlignment: MainAxisAlignment.center,
-             crossAxisAlignment: CrossAxisAlignment.center,
-             children: [
-               SizedBox(height: 20.0,),
-               CircleAvatar(
-                 radius: 40.0,
-                 backgroundColor: Colors.white,
-                 child: Icon(Icons.person, size: 40.0, color: Colors.indigo,),
-               ),
-               SizedBox(height: 20.0,),
-               Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: Row(
-                   crossAxisAlignment: CrossAxisAlignment.end,
-                   mainAxisSize: MainAxisSize.min,
-
-                   children: [
-                       Expanded(
-                         child: Text("Order and Get \nto door step", style: TextStyle(
-                           fontSize: 28,color: Colors.white, fontWeight: FontWeight.bold,
-                         ),),
-                       )
-                   ],
-                 ),
-               ),
-             ],
-           ),
-             ),
-           ) ,
+    return  Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/bg.jpg"),
+            fit:BoxFit.cover,
+          )
         ),
-            Expanded(
-              flex: 2,
-              child: Container(
-               child: _buildBottom(),
-              ) ,
-            ),
+        child:  Scaffold(
+          backgroundColor: Colors.transparent,
+          body:Stack(
+            children: [
+              Positioned(top:80, child: _buildTop()),
+              Positioned(bottom:0, child: _buildBottom()),
+            ],
+          ) ,
+        )
 
-      ]
-    )
     );
   }
-
-
 
   Widget _buildTop(){
     return SizedBox(
@@ -125,7 +80,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
   }
-
 
   Widget _loginForm(){
     return Column(
@@ -220,32 +174,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-
-
-
-class HeadContainerClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size){
-    double w=size.width;
-    double h=size.height;
-    final path = Path();
-    //  path.moveTo(0, 30);
-   path.lineTo(0,h-50);
-    path.quadraticBezierTo(
-      w * 0.5,
-       h+50,
-      w ,
-      h-50 ,
-    );
-
-     path.lineTo(w,0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) =>false;
-}
-
-

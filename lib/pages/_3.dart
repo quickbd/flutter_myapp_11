@@ -48,8 +48,8 @@ class _LoginPageState extends State<LoginPage> {
                SizedBox(height: 20.0,),
                CircleAvatar(
                  radius: 40.0,
-                 backgroundColor: Colors.white,
-                 child: Icon(Icons.person, size: 40.0, color: Colors.indigo,),
+                 backgroundColor: brownColor,
+                 child: Icon(Icons.person, size: 40.0,),
                ),
                SizedBox(height: 20.0,),
                Padding(
@@ -75,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
             Expanded(
               flex: 2,
               child: Container(
+
                child: _buildBottom(),
               ) ,
             ),
@@ -126,27 +127,47 @@ class _LoginPageState extends State<LoginPage> {
         );
   }
 
-
   Widget _loginForm(){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Login', style: TextStyle(fontSize: 30.0, color:myColor),),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
 
-        SizedBox(height: 40,),
-        _buildGreyText("Username"),
-        _buildInputField(emailClt),
-        SizedBox(height: 40,),
-        _buildGreyText("Password"),
-        _buildInputField(passwordClt, isPassword: true),
-        SizedBox(height: 20),
-        _buildRememberMe(),
-        SizedBox(height: 20,),
-        _buildButton('Login'),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+           child: Card(
+             elevation:10,
+             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12.0))) ,
+             child: Padding(
+               padding: const EdgeInsets.all(12.0),
+               child: Column(
+                 children:[
+               Text('Login', style: TextStyle(fontSize: 30.0, color:myColor),),
 
-        SizedBox(height: 20,),
-        _buildOtherLogin(),
-      ],
+          SizedBox(height: 30,),
+          _buildGreyText("Username"),
+          _buildInputField(emailClt),
+          SizedBox(height: 30,),
+          _buildGreyText("Password"),
+          _buildInputField(passwordClt, isPassword: true),
+          SizedBox(height: 20),
+          _buildRememberMe(),
+          SizedBox(height: 20,),
+                   ]
+          ),
+             ),
+           ),
+          ),
+          SizedBox(height: 20),
+          _buildButton('Login'),
+
+          SizedBox(height: 20,),
+          _buildOtherLogin(),
+          ],
+       ),
+
+
+
     );
   }
 
