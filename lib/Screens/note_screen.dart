@@ -46,7 +46,29 @@ class NoteScreen extends StatelessWidget {
                   subtitle: Text(
                       noteController.notes[index].department
                   ),
-                  trailing: Icon(Icons.arrow_forward)
+                  trailing: Container(
+                    width: 100.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: (){
+                            _updateDialogue(context, index);
+
+                          },
+                          child: Icon(Icons.edit),
+                        ),
+                        InkWell(
+                          onTap: (){
+                          //  _deleteDialogue(context, index);
+                            noteController.deleteNote(index);
+                          },
+                          child: Icon(Icons.delete, color: Colors.deepOrange,),
+                        ),
+                      ],
+                    ),
+
+                  ),
                 );
 
               }
@@ -97,7 +119,7 @@ class NoteScreen extends StatelessWidget {
                  ElevatedButton(onPressed: (){
                    noteController.createNote(NoteModel(idCrt.text, nameCrt.text, dptCrt.text));
                    Navigator.pop(context);
-                   
+
                  }, child:Text('Submit', style: TextStyle(
                      color: Colors.white
                  ),),
@@ -112,4 +134,60 @@ class NoteScreen extends StatelessWidget {
          });
   }
 
+
+  _updateDialogue(BuildContext context, int index){
+    return showDialog(context: context, builder: (_){
+      return SingleChildScrollView(
+        child: AlertDialog(
+          content: Column(
+            children: [
+              TextField(
+                controller: idCrt,
+                decoration: InputDecoration(
+                    hintText: 'Student ID'
+                ),
+              ),
+              SizedBox(height: 10.0,),
+              TextField(
+                controller: nameCrt,
+                decoration: InputDecoration(
+                    hintText: 'Student Name'
+                ),
+              ),
+              SizedBox(height: 10.0,),
+              TextField(
+                controller: dptCrt,
+                decoration: InputDecoration(
+                    hintText: 'Department'
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            ElevatedButton(onPressed: (){
+              Navigator.pop(context);
+            }, child:Text('Cancel', style: TextStyle(
+                color: Colors.white
+            ),),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple
+              ),
+            ),
+            ElevatedButton(onPressed: (){
+              noteController.updateNote(NoteModel(idCrt.text, nameCrt.text, dptCrt.text), index);
+              Navigator.pop(context);
+
+            }, child:Text('Update', style: TextStyle(
+                color: Colors.white
+            ),),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: brownColor
+              ),
+            ),
+          ],
+        ),
+      );
+
+    });
+  }
 }
