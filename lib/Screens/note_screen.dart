@@ -90,6 +90,9 @@ class NoteScreen extends StatelessWidget {
   }
 
     _showDialogue(BuildContext context){
+      idCrt.text = "";
+      nameCrt.text = "";
+      dptCrt.text = "";
          return showDialog(context: context, builder: (_){
            return SingleChildScrollView(
              child: AlertDialog(
@@ -147,6 +150,12 @@ class NoteScreen extends StatelessWidget {
 
 
   _updateDialogue(BuildContext context, int index){
+
+    NoteModel note=box.getAt(index);
+    // Set the initial values for the TextFields
+    idCrt.text = note.id;
+    nameCrt.text = note.name;
+    dptCrt.text = note.department;
     return showDialog(context: context, builder: (_){
       return SingleChildScrollView(
         child: AlertDialog(
