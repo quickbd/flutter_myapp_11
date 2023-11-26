@@ -1,29 +1,24 @@
 
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
-import '../Models/note_screen.dart';
+import '../Models/note_model.dart';
 
 class NoteController extends GetxController{
-List<NoteModel> notes =[];
-void createNote(NoteModel note) {
-  // Check for null or empty values before adding the note
-  if (note.id.isNotEmpty && note.name.isNotEmpty && note.department.isNotEmpty) {
-    notes.add(note);
-    update();
-  } else {
-    // Handle the case where any of the fields is empty
-    // You can show a message or take appropriate action
+  final Box box=Hive.box("notes");
+
+  void createNote(NoteModel note) {
+    box.add(note);
   }
-}
 
 
 void updateNote(NoteModel note, int index){
-  notes[index]=note;
-  update();
+  box.putAt(index, note) ;
+
 }
 
 void deleteNote(int index){
- notes.removeAt(index);
-  update();
+   box.deleteAt(index);
+
 }
 }

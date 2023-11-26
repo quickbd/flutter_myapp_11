@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:myapp_11/Screens/note_screen.dart';
-import 'package:myapp_11/storage_utils.dart';
-
+import 'package:myapp_11/Models/note_model.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main()async {
-  await GetStorage.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(NoteModelAdapter());
+  await Hive.openBox('notes');
   runApp(const MyApp());
 }
 

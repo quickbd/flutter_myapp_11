@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:myapp_11/Controllers/note_controller.dart';
-import 'package:myapp_11/Models/note_screen.dart';
+import 'package:myapp_11/Models/note_model.dart';
 
 class NoteScreen extends StatelessWidget {
 
@@ -11,8 +12,8 @@ class NoteScreen extends StatelessWidget {
       final TextEditingController idCrt = TextEditingController();
       final TextEditingController nameCrt = TextEditingController();
       final TextEditingController dptCrt = TextEditingController();
-      final NoteController noteController = NoteController();
-
+      final NoteController noteController = Get.put(NoteController());
+      final Box box=Hive.box("notes");
 
   @override
   Widget build(BuildContext context) {
@@ -32,46 +33,56 @@ class NoteScreen extends StatelessWidget {
       body: GetBuilder<NoteController>(builder: (_){
         return Padding(
           padding: const EdgeInsets.all(12.0),
-          child: ListView.builder(
-            shrinkWrap: true,
-              itemCount: noteController.notes.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Text(
-                    noteController.notes[index].id
-                  ),
-                  title: Text(
-                      noteController.notes[index].name
-                  ),
-                  subtitle: Text(
-                      noteController.notes[index].department
-                  ),
-                  trailing: Container(
-                    width: 100.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            _updateDialogue(context, index);
+          child: ValueListenableBuilder(
+            valueListenable: box.listenable() ,
 
-                          },
-                          child: Icon(Icons.edit),
+            builder: (context, box, child) {
+              return ListView.builder(
+                shrinkWrap: true,
+                  itemCount: box.keys.length,
+                  itemBuilder: (context, index) {
+
+                  NoteModel note=box.getAt(index);
+                    return Card(
+                      child: ListTile(
+                        leading: Text(
+                          note.id
                         ),
-                        InkWell(
-                          onTap: (){
-                          //  _deleteDialogue(context, index);
-                            noteController.deleteNote(index);
-                          },
-                          child: Icon(Icons.delete, color: Colors.deepOrange,),
+                        title: Text(
+                            note.name
                         ),
-                      ],
-                    ),
-
-                  ),
-                );
-
-              }
+                        subtitle: Text(
+                            note.department
+                        ),
+                        trailing: Container(
+                          width: 100.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                onTap: (){
+                                  _updateDialogue(context, index);
+                                    
+                                },
+                                child: Icon(Icons.edit),
+                              ),
+                              InkWell(
+                                onTap: (){
+                                //  _deleteDialogue(context, index);
+                                  noteController.deleteNote(index);
+                                },
+                                child: Icon(Icons.delete, color: Colors.deepOrange,),
+                              ),
+                            ],
+                          ),
+                                    
+                        ),
+                      ),
+                    );
+              
+                  }
+              );
+            }
           ),
         );
       },),
